@@ -4,10 +4,9 @@ import requests
 import time
 from datetime import datetime
 import math
-import pyperclip
-import sqlite3
-from PIL import Image, ImageFilter  # For image manipulation
 import random
+import pyperclip
+from PIL import Image, ImageFilter
 
 class MultiPurposeTool:
     def __init__(self):
@@ -17,141 +16,225 @@ class MultiPurposeTool:
         print("\nWelcome to the Expanded Multipurpose Tool!")
         print("1. System Information")
         print("2. Math Operations")
-        print("3. Web Scraping")
-        print("4. API Interaction (Weather)")
-        print("5. File Handling")
-        print("6. Text Processing")
-        print("7. Cryptography")
-        print("8. Clipboard Manager")
-        print("9. Image Manipulation")
-        print("10. Task Scheduler")
-        print("11. Voice Assistant")
-        print("12. Database Interaction")
-        print("13. Mini Games")
-        print("14. Exit")
+        print("3. Unit Conversions")
+        print("4. Web Scraping")
+        print("5. API Interaction (Weather)")
+        print("6. File Handling")
+        print("7. Text Processing")
+        print("8. Cryptography")
+        print("9. Clipboard Manager")
+        print("10. Image Manipulation")
+        print("11. Task Scheduler")
+        print("12. Ping Test")
+        print("13. IP Lookup")
+        print("14. Mini Games")
+        print("15. Exit")
 
-    # Existing methods here...
-    # Adding new functionality below...
+    # Basic System Utilities
+    def system_info(self):
+        print("\nSystem Information:")
+        print(f"Platform: {sys.platform}")
+        print(f"Current Working Directory: {os.getcwd()}")
+        print(f"Time: {datetime.now()}")
 
-    # Cryptography (Caesar Cipher)
-    def cryptography(self):
-        print("\nCryptography - Caesar Cipher")
-        action = input("Choose: [1] Encode or [2] Decode: ")
-        text = input("Enter text: ")
-        shift = int(input("Enter shift amount: "))
+    # Advanced Math Tools (Calculator)
+    def math_operations(self):
+        print("\nAdvanced Math Tools:")
+        print("1. Basic Operations")
+        print("2. Square Root")
+        print("3. Exponent")
+        print("4. Logarithm (base 10)")
+        choice = input("Choose an operation: ")
 
-        def caesar_cipher(text, shift, encode=True):
-            result = ""
-            for char in text:
-                if char.isalpha():
-                    shift_amount = shift if encode else -shift
-                    char_code = ord(char) + shift_amount
-                    if char.islower():
-                        result += chr((char_code - 97) % 26 + 97)
-                    else:
-                        result += chr((char_code - 65) % 26 + 65)
-                else:
-                    result += char
-            return result
-
-        if action == '1':
-            print("Encoded text:", caesar_cipher(text, shift, encode=True))
-        elif action == '2':
-            print("Decoded text:", caesar_cipher(text, shift, encode=False))
+        if choice == '1':
+            self.basic_math()
+        elif choice == '2':
+            num = float(input("Enter number: "))
+            print(f"Square Root: {math.sqrt(num)}")
+        elif choice == '3':
+            base = float(input("Enter base: "))
+            exp = float(input("Enter exponent: "))
+            print(f"Result: {base ** exp}")
+        elif choice == '4':
+            num = float(input("Enter number: "))
+            print(f"Logarithm (base 10): {math.log10(num)}")
         else:
-            print("Invalid option.")
+            print("Invalid choice.")
 
-    # Clipboard Manager
-    def clipboard_manager(self):
-        print("\nClipboard Manager")
-        action = input("Choose: [1] Copy or [2] Paste: ")
-
-        if action == '1':
-            text = input("Enter text to copy: ")
-            pyperclip.copy(text)
-            print("Text copied to clipboard.")
-        elif action == '2':
-            print("Clipboard content:", pyperclip.paste())
-        else:
-            print("Invalid option.")
-
-    # Image Manipulation (Resize or apply filter)
-    def image_manipulation(self):
-        print("\nImage Manipulation")
-        filename = input("Enter image filename: ")
-        action = input("Choose: [1] Resize, [2] Apply Blur filter: ")
-
+    def basic_math(self):
+        num1 = float(input("Enter first number: "))
+        num2 = float(input("Enter second number: "))
+        operation = input("Enter operation (+, -, *, /): ")
         try:
-            img = Image.open(filename)
-            if action == '1':
-                width = int(input("Enter new width: "))
-                height = int(input("Enter new height: "))
-                img = img.resize((width, height))
-                img.show()
-            elif action == '2':
-                img = img.filter(ImageFilter.BLUR)
-                img.show()
+            if operation == '+':
+                print(f"Result: {num1 + num2}")
+            elif operation == '-':
+                print(f"Result: {num1 - num2}")
+            elif operation == '*':
+                print(f"Result: {num1 * num2}")
+            elif operation == '/':
+                print(f"Result: {num1 / num2}")
             else:
-                print("Invalid option.")
-        except Exception as e:
-            print(f"Error: {e}")
+                print("Invalid operation.")
+        except ZeroDivisionError:
+            print("Error: Division by zero.")
+    def image_manipulation(self):
+     print("\nImage Manipulation Tool:")
+     print("1. Resize Image")
+     print("2. Apply Filter (BLUR)")
+     print("3. Convert to Grayscale")
+     choice = input("Choose an action: ")
 
-    # Task Scheduler (simple delay)
-    def task_scheduler(self):
-        print("\nTask Scheduler")
-        delay = int(input("Enter delay in seconds: "))
-        task = input("Enter task description (e.g., 'print a message'): ")
+     if choice == '1':
+        self.resize_image()
+     elif choice == '2':
+        self.apply_filter()
+     elif choice == '3':
+        self.convert_to_grayscale()
+     else:
+        print("Invalid choice.")
 
-        print(f"Task scheduled: {task} will execute after {delay} seconds.")
-        time.sleep(delay)
-        print(f"Executing task: {task}")
-        if task == "print a message":
-            print("Hello! This is your scheduled message.")
-        # You can add more task types here...
+    def resize_image(self):
+     try:
+         image_path = input("Enter the path to the image: ")
+         image = Image.open(image_path)
+         width = int(input("Enter new width: "))
+         height = int(input("Enter new height: "))
+         resized_image = image.resize((width, height))
+         save_path = input("Enter the path to save the resized image (with extension): ")
+         resized_image.save(save_path)
+         print(f"Image resized and saved to {save_path}")
+     except Exception as e:
+        print(f"Error: {e}")
 
-    # Mini Games
+    def apply_filter(self):
+     try:
+         image_path = input("Enter the path to the image: ")
+         image = Image.open(image_path)
+         blurred_image = image.filter(ImageFilter.BLUR)
+         save_path = input("Enter the path to save the blurred image (with extension): ")
+         blurred_image.save(save_path)
+         print(f"Blurred image saved to {save_path}")
+     except Exception as e:
+        print(f"Error: {e}")
+
+    def convert_to_grayscale(self):
+     try:
+         image_path = input("Enter the path to the image: ")
+         image = Image.open(image_path)
+         grayscale_image = image.convert("L")
+         save_path = input("Enter the path to save the grayscale image (with extension): ")
+         grayscale_image.save(save_path)
+         print(f"Grayscale image saved to {save_path}")
+     except Exception as e:
+        print(f"Error: {e}")
+
+    # Unit Conversions (Length, Weight, Temperature)
+    def unit_conversions(self):
+        print("\nUnit Conversions:")
+        print("1. Length (Meters to Kilometers)")
+        print("2. Weight (Kilograms to Pounds)")
+        print("3. Temperature (Celsius to Fahrenheit)")
+        choice = input("Choose a conversion: ")
+
+        if choice == '1':
+            meters = float(input("Enter meters: "))
+            print(f"Kilometers: {meters / 1000}")
+        elif choice == '2':
+            kg = float(input("Enter kilograms: "))
+            print(f"Pounds: {kg * 2.20462}")
+        elif choice == '3':
+            celsius = float(input("Enter Celsius: "))
+            fahrenheit = (celsius * 9/5) + 32
+            print(f"Fahrenheit: {fahrenheit}")
+        else:
+            print("Invalid choice.")
+
+    # Ping Test (Network utility)
+    def ping_test(self):
+        print("\nPing Test")
+        url = input("Enter website URL (e.g., google.com): ")
+        response = os.system(f"ping {url}")
+        if response == 0:
+            print(f"{url} is reachable.")
+        else:
+            print(f"{url} is not reachable.")
+
+    # IP Lookup (Retrieve public IP)
+    def ip_lookup(self):
+        print("\nFetching your public IP address...")
+        try:
+            ip = requests.get("https://api.ipify.org").text
+            print(f"Your public IP is: {ip}")
+        except requests.RequestException as e:
+            print(f"Error retrieving IP: {e}")
+
+    # More Mini Games
     def mini_games(self):
         print("\nMini Games")
-        print("1. Number Guessing")
-        print("2. Rock-Paper-Scissors")
+        print("1. Tic-Tac-Toe")
+        print("2. Snake Game (Text-based)")
+        print("3. Trivia Quiz")
         choice = input("Choose a game: ")
 
         if choice == '1':
-            self.number_guessing_game()
+            self.tic_tac_toe()
         elif choice == '2':
-            self.rock_paper_scissors()
+            self.snake_game()
+        elif choice == '3':
+            self.trivia_quiz()
         else:
-            print("Invalid option.")
-
-    def number_guessing_game(self):
-        print("Number Guessing Game - Guess the number between 1 and 100!")
-        number = random.randint(1, 100)
-        guess = None
-        while guess != number:
-            guess = int(input("Enter your guess: "))
-            if guess > number:
-                print("Too high!")
-            elif guess < number:
-                print("Too low!")
-            else:
-                print("Correct! You guessed the number.")
-
-    def rock_paper_scissors(self):
-        print("Rock-Paper-Scissors")
-        choices = ['rock', 'paper', 'scissors']
-        computer_choice = random.choice(choices)
-        user_choice = input("Choose rock, paper, or scissors: ").lower()
-
-        if user_choice not in choices:
             print("Invalid choice.")
-        elif user_choice == computer_choice:
-            print(f"It's a tie! Both chose {user_choice}.")
-        elif (user_choice == 'rock' and computer_choice == 'scissors') or \
-             (user_choice == 'paper' and computer_choice == 'rock') or \
-             (user_choice == 'scissors' and computer_choice == 'paper'):
-            print(f"You win! {user_choice} beats {computer_choice}.")
+
+    # Tic-Tac-Toe Game
+    def tic_tac_toe(self):
+        board = [" " for _ in range(9)]
+        player = "X"
+
+        def display_board():
+            print(f"{board[0]} | {board[1]} | {board[2]}")
+            print("-" * 5)
+            print(f"{board[3]} | {board[4]} | {board[5]}")
+            print("-" * 5)
+            print(f"{board[6]} | {board[7]} | {board[8]}")
+
+        def check_win(player):
+            win_conditions = [(0, 1, 2), (3, 4, 5), (6, 7, 8), (0, 3, 6), (1, 4, 7), (2, 5, 8), (0, 4, 8), (2, 4, 6)]
+            return any(board[a] == board[b] == board[c] == player for a, b, c in win_conditions)
+
+        while " " in board:
+            display_board()
+            move = int(input(f"Player {player}, enter position (1-9): ")) - 1
+            if board[move] == " ":
+                board[move] = player
+                if check_win(player):
+                    display_board()
+                    print(f"Player {player} wins!")
+                    return
+                player = "O" if player == "X" else "X"
+            else:
+                print("Invalid move, try again.")
+
+        display_board()
+        print("It's a tie!")
+
+    # Trivia Quiz Game
+    def trivia_quiz(self):
+        questions = [
+            {"question": "What is the capital of France?", "answer": "paris"},
+            {"question": "What is 2 + 2?", "answer": "4"},
+            {"question": "Who wrote 'Harry Potter'?", "answer": "jk rowling"}
+        ]
+        question = random.choice(questions)
+        answer = input(f"Trivia: {question['question']}: ").lower()
+        if answer == question['answer']:
+            print("Correct!")
         else:
-            print(f"You lose! {computer_choice} beats {user_choice}.")
+            print(f"Wrong! The correct answer was {question['answer']}.")
+
+    # Snake Game (simplified, text-based)
+    def snake_game(self):
+        print("Snake Game is currently in development. Coming soon!")
 
     def run(self):
         while self.running:
@@ -162,34 +245,35 @@ class MultiPurposeTool:
             elif choice == '2':
                 self.math_operations()
             elif choice == '3':
-                self.web_scraping()
+                self.unit_conversions()
             elif choice == '4':
-                self.get_weather()
+                self.web_scraping()
             elif choice == '5':
-                self.file_handling()
+                self.get_weather()
             elif choice == '6':
-                self.text_processing()
+                self.file_handling()
             elif choice == '7':
-                self.cryptography()
+                self.text_processing()
             elif choice == '8':
-                self.clipboard_manager()
+                self.cryptography()
             elif choice == '9':
-                self.image_manipulation()
+                self.clipboard_manager()
             elif choice == '10':
-                self.task_scheduler()
+                self.image_manipulation()
             elif choice == '11':
-                print("Voice Assistant not yet implemented!")
+                self.task_scheduler()
             elif choice == '12':
-                print("Database interaction not yet implemented!")
+                self.ping_test()
             elif choice == '13':
-                self.mini_games()
+                self.ip_lookup()
             elif choice == '14':
-                print("Exiting...")
+                self.mini_games()
+            elif choice == '15':
+                print("Goodbye!")
                 self.running = False
             else:
-                print("Invalid option, try again.")
+                print("Invalid choice. Please try again.")
 
-# Main
 if __name__ == "__main__":
     tool = MultiPurposeTool()
     tool.run()
